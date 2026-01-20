@@ -28,10 +28,16 @@ This project demonstrates a headless commerce implementation using:
 - Shopify access token
 
 ### Installation
-
+Clone
 ```bash
 git clone https://github.com/Chukwudi-O/headless-shopify-store.git
+```
+Enter
+```bash
 cd headless-shopify-store
+```
+Install dependencies
+```bash
 pnpm install
 ```
 
