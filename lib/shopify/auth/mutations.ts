@@ -53,5 +53,5 @@ export async function loginUser(input: {
     const variables = { input: input }
 
     const {data} = await shopifyFetch(mutation, variables)
-    return data
+    return data.customerAccessTokenCreate
 }
