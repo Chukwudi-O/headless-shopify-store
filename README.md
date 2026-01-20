@@ -32,7 +32,7 @@ This project demonstrates a headless commerce implementation using:
 ```bash
 git clone https://github.com/Chukwudi-O/headless-shopify-store.git
 cd headless-shopify-store
-npm install
+pnpm install
 ```
 
 ### Environment Setup
@@ -47,7 +47,7 @@ NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_access_token
 ### Running Locally
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Visit `http://localhost:3000`
@@ -55,10 +55,19 @@ Visit `http://localhost:3000`
 ## Project Structure
 
 ```
-src/
-├── components/     # React components
-├── pages/          # Next.js pages
-├── lib/            # Utility functions and API calls
+headless-shopify-store/
+├── app/                # Website pages
+|   ├── actions         # Server actions to call API
+|   └── auth            # Auth group
+├── components/         # React components
+|       └── ui          # Shadcn Components
+├── lib/                # Utility functions and API calls
+|   └── shopify         # package for Shopify API calls
+|       ├── auth        # queries and mutations of user profiles
+|       ├── cart        # queries and mutations of user cart
+|       ├── products    # queries of products
+|       ├── fetch.ts    # API setup for fetching
+|       └── index.ts    # server only exports
 
 ```
 
