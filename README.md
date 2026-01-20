@@ -68,7 +68,7 @@ headless-shopify-store/
 ├── components/         # React components
 |       └── ui          # Shadcn Components
 ├── lib/                # Utility functions and API calls
-|   └── shopify         # package for Shopify API calls
+|   └── shopify/        # package for Shopify API calls
 |       ├── auth        # queries and mutations of user profiles
 |       ├── cart        # queries and mutations of user cart
 |       ├── products    # queries of products
