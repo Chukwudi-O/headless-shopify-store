@@ -46,8 +46,9 @@ pnpm install
 Create a `.env.local` file:
 
 ```env
-NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-NEXT_PUBLIC_ACCESS_TOKEN=your_access_token
+SHOPIFY_STORE_DOMAIN='your_store.myshopify.com'
+SHOPIFY_API_VERSION='your_api_version'
+PUBLIC_ACCESS_TOKEN='your_access_token'
 ```
 
 ### Running Locally

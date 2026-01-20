@@ -3,12 +3,13 @@ import { createStorefrontApiClient, StorefrontApiClient } from "@shopify/storefr
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN;
 const token = process.env.SHOPIFY_PUBLIC_ACCESS_TOKEN;
+const apiVersion = process.env.SHOPIFY_API_VERSION;
 
 
 async function getShopifyAPI(): Promise<StorefrontApiClient> {
     return createStorefrontApiClient({
         storeDomain: domain!,
-        apiVersion: "2026-01",
+        apiVersion: apiVersion!,
         publicAccessToken: token!,
     });
 }
