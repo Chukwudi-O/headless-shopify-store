@@ -61,6 +61,10 @@ export async function getShopifyProducts(numberOfProducts: number = 10, imagesPe
                   amount
                   currencyCode
                 }
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
               }
             }
           }
