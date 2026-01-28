@@ -134,5 +134,5 @@ export async function getShopifyProductByHandle(productHandle: string, imagesPer
       }
     }
   `
-  return await shopifyFetch(query);
+  return {...await shopifyFetch(query), handle: productHandle};
 }

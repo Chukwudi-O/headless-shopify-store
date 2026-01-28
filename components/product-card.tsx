@@ -1,15 +1,15 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
+import Link from "next/link";
+import { ShopifyProduct } from "@/lib/types";
 
-type ProductCardProps = {
-  prodInfo:any
-};
 
-export const ProductCard: React.FC<ProductCardProps> = ({
+export const ProductCard: React.FC<{ prodInfo: ShopifyProduct }> = ({
   prodInfo
 }) => {
   return (
     <Card
+    
       className="pt-0 max-w-sm rounded-xl overflow-hidden hover:shadow-xl transition-shadow cursor-pointer bg-white"
       
     >
@@ -30,10 +30,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="flex w-full items-center justify-between">
           <span className="text-lg font-bold text-gray-900">{prodInfo.priceRange.minVariantPrice.currencyCode}${prodInfo.priceRange.minVariantPrice.amount}</span>
-          <button
-            className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors">
-            View
-          </button>
+          <Link href={`/shop/${prodInfo.handle}`}>
+            <button
+              className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors">
+              View
+            </button>
+          </Link>
         </div>
       </CardFooter>
     </Card>

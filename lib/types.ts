@@ -1,0 +1,54 @@
+
+export type ShopifyProduct = {
+  id: string,
+  title: string,
+  description: string,
+  handle:string,
+  images: {
+    edges: [
+      {
+        node: {
+          url: string
+        }
+      }
+    ]
+  },
+  priceRange: {
+    minVariantPrice: {
+      currencyCode: string,
+      amount: number
+    }
+    maxVariantPrice: {
+      currencyCode: string,
+      amount: number
+    }
+  }
+}
+
+export type ShopifyProducts = 
+[
+    id: string,
+    handle: string,
+    title: string,
+    description: string,
+    availableForSale: boolean,
+    images: {
+        edges: [
+        {
+            node: {
+            url: string
+            }
+        }
+        ]
+    },
+    priceRange: {
+        minVariantPrice: {
+        currencyCode: string,
+        amount: number
+        }
+        maxVariantPrice: {
+        currencyCode: string,
+        amount: number
+        }
+    }
+]

@@ -1,5 +1,3 @@
-"use client"
-import AuthCard from "@/components/auth-card";
 
 export default function Home() {
   
@@ -8,7 +6,6 @@ export default function Home() {
 
       <h1 className="text-4xl font-bold">Welcome to the Headless Shopify Store!</h1>
 
-      <AuthCard/>
 
     </div>
   );
