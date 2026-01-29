@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { ShoppingCart } from "lucide-react"
-import { getProductByHandle, getProducts } from "@/app/actions/products"
+import { getProductByHandle } from "@/app/actions/products"
 import { useParams } from "next/navigation"
 import { ShopifyProduct } from "@/lib/types"
 

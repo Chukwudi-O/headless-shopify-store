@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginShopifyUser, registerShopifyUser } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "./navigation";
 
 type Mode = "login" | "register";
+
+
 
 export default function AuthCard() {
   const [mode, setMode] = useState<Mode>("login");
@@ -18,6 +22,8 @@ export default function AuthCard() {
     firstName:"",
     lastName:""
   });
+  const router = useRouter();
+  const {setLoggedIn} = useContext(AuthContext);
 
   const isRegister = mode === "register";
 
@@ -43,10 +49,18 @@ export default function AuthCard() {
 
     if (isRegister){
         const data = await registerShopifyUser(payload)
-        console.log(data);
-    }else{
+        
+        if (data.customerCreate.customer){
+          console.log("Registration successful:", data);
+          setMode("login");
+        }
+      }else{
         const res = await loginShopifyUser(payload)
-        console.log(res);
+        
+        if (res){
+          router.push("/");
+          setLoggedIn(true);
+        }
     }
   };
 

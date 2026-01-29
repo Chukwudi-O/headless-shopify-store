@@ -1,5 +1,5 @@
 "use server";
-import { loginUser, registerUser } from "@/lib/shopify";
+import { getCustomerInfo, loginUser, registerUser } from "@/lib/shopify";
 import { cookies } from "next/headers";
 
 export async function registerShopifyUser(input?:{
@@ -39,7 +39,19 @@ export async function loginShopifyUser(input:{
   return true;
 }
 
-export async function getUserToken(){
+export async function checkUserLoggedIn(){
   const cookie = await cookies()
-  return cookie.get("customer_token")?.value
+  return !!cookie.get("customer_token")?.value
+}
+
+export async function logoutUser(){
+  const cookie = await cookies()
+  cookie.delete("customer_token");
+}
+
+export async function getUserInfo(){
+  const cookie = await cookies()
+  const token = cookie.get("customer_token")?.value
+
+  return await getCustomerInfo(token || "");
 }
