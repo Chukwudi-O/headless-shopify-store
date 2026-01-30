@@ -2,8 +2,8 @@ import { shopifyFetch } from "../fetch"
 
 export async function getCustomerInfo(token: string) {
     const query = `
-        query {
-            customer(customerAccessToken: "${token}") {
+        query getCustomer($customerAccessToken: String!) {
+            customer(customerAccessToken: $customerAccessToken) {
                 id
                 email
                 firstName
@@ -13,6 +13,6 @@ export async function getCustomerInfo(token: string) {
         }
     `
 
-    const res = await shopifyFetch(query)
+    const res = await shopifyFetch(query,{ customerAccessToken: token })
     return res.data.customer
 }
