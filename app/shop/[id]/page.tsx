@@ -57,7 +57,7 @@ export default function ShopifyProductPage() {
       {/* Image */}
       <Card className="rounded-2xl overflow-hidden p-0">
         <img
-          src={variant.image?.url}
+          src={variant.image.url}
           alt={product.title}
           className="w-full h-full object-cover"
         />
