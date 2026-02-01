@@ -36,11 +36,27 @@ export async function addItemToShopifyCart(cartId:string,variantId:string,quanti
     }] };
 
     const { data } = await shopifyFetch(mutation, variables);
-    console.log("Add Item Response:", data);
+    // console.log("Add Item Response:", data);
 }
 
-export async function removeItemFromShopifyCart(item: any) {
-    const mutation = ``
+export async function removeItemFromShopifyCart(cartId: string, lineId: string) {
+    const mutation = `
+    mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+        cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+            cart {
+                id
+                totalQuantity
+            }
+            userErrors {
+                field
+                message
+            }
+        }
+    }`;
+
+    const variables = { cartId, lineIds: [lineId] };
+    await shopifyFetch(mutation, variables);
+    // console.log("Remove Item Response:", data);
 }
 
 export async function updateShopifyCartItem() {

@@ -1,5 +1,5 @@
 "use server";
-import { addItemToShopifyCart, createShopifyCart } from "@/lib/shopify";
+import { addItemToShopifyCart, createShopifyCart, removeItemFromShopifyCart } from "@/lib/shopify";
 import { getShopifyCart } from "@/lib/shopify/cart/queries";
 import { cookies } from "next/headers";
 
@@ -32,4 +32,12 @@ export async function addItemToCart(variantId:string,quantity:number){
     
     addItemToShopifyCart(cartId!, variantId, quantity);
     
+}
+
+export async function removeItemFromCart(lineId:string){
+    const cookie = await cookies();
+    const cartId = cookie.get("cartId")?.value;
+    if (cartId){
+        await removeItemFromShopifyCart(cartId, lineId);
+    }
 }

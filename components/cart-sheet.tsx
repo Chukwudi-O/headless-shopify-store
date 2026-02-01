@@ -12,7 +12,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { getCart } from "@/app/actions/cart"
+import { getCart, removeItemFromCart } from "@/app/actions/cart"
+import { Trash } from "lucide-react"
 
 type CartSheetProps = {
   open: boolean,
@@ -26,14 +27,13 @@ export default function CartSheet({
     const [cart,setCart] = useState<any>(null);
     const [items,setItems] = useState<any[]>([]);
 
+    async function fetchCartItems(){
+        const cartData = await getCart();
+        setCart(cartData.cart);
+        setItems(cartData.cart.lines.edges);
+    }
 
     useEffect(() => {
-        async function fetchCartItems(){
-            const cartData = await getCart();
-            console.log("Fetched cart data:", cartData);
-            setCart(cartData.cart);
-            setItems(cartData.cart.lines.edges);
-        }
         fetchCartItems();
     }, [open]);
 
@@ -82,10 +82,13 @@ export default function CartSheet({
                                 <Button
                                 variant="ghost"
                                 size="sm"
-                                className="mt-2 text-red-500 px-0"
-                                
+                                className="mt-2 text-red-500 hover:bg-red-400/10 px-0"
+                                onClick={()=>{
+                                    removeItemFromCart(node.id)
+                                    .then(() => fetchCartItems());
+                                }}
                                 >
-                                Remove
+                                Remove <Trash/>
                                 </Button>
                             </div>
                         </div>
