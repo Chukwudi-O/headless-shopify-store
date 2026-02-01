@@ -76,7 +76,7 @@ export default function CartSheet({
                                 </p>
 
                                 <p className="text-sm">
-                                ${Number(node.merchandise.priceV2.amount).toFixed(2)}
+                               {node.merchandise.priceV2.currencyCode} ${Number(node.merchandise.priceV2.amount).toFixed(2)}
                                 </p>
 
                                 <Button
@@ -102,7 +102,7 @@ export default function CartSheet({
                     <div className="flex justify-between font-medium px-2">
                         <span>Subtotal</span>
                         <span>
-                        ${Number(cart?.cost?.subtotalAmount?.amount || 0).toFixed(2)}
+                       {cart.cost.subtotalAmount.currencyCode} ${Number(cart.cost.subtotalAmount.amount || 0).toFixed(2)}
                         </span>
                     </div>
 
@@ -111,7 +111,7 @@ export default function CartSheet({
                         disabled={!cart}
                         asChild
                     >
-                        <a href={cart?.checkoutUrl}>
+                        <a href={cart.checkoutUrl}>
                         Checkout
                         </a>
                     </Button>
