@@ -4,6 +4,17 @@ export type ShopifyProduct = {
   title: string,
   description: string,
   handle:string,
+  priceRange: {
+    minVariantPrice: {
+      currencyCode: string,
+      amount: number
+    },
+    maxVariantPrice: {
+      currencyCode: string,
+      amount: number
+    }
+  },
+  availableForSale: boolean,
   images: {
     edges: [
       {
