@@ -75,64 +75,97 @@ export async function getShopifyProducts(numberOfProducts: number = 10, imagesPe
 }
 
 
-export async function getShopifyProductById(productId: string, imagesPerProduct: number = 1) {
-  const query = `
-    query GetProductById{
-      product(id: "${productId}") {
-        title
-        handle
-        description
-        images(first: ${imagesPerProduct}) {
-          edges {
-            node {
-              url
-              altText
-            }
-          }
-        }
-        priceRange{
-          maxVariantPrice{
-            amount
-            currencyCode
-          }
-          minVariantPrice{
-            amount
-            currencyCode
-          }
-        }
-      }
-    }
-  `
-  return await shopifyFetch(query);
-}
+// export async function getShopifyProductById(productId: string, imagesPerProduct: number = 1) {
+//   const query = `
+//     query GetProductById{
+//       product(id: "${productId}") {
+//         title
+//         handle
+//         description
+//         images(first: ${imagesPerProduct}) {
+//           edges {
+//             node {
+//               url
+//               altText
+//             }
+//           }
+//         }
+//         priceRange{
+//           maxVariantPrice{
+//             amount
+//             currencyCode
+//           }
+//           minVariantPrice{
+//             amount
+//             currencyCode
+//           }
+//         }
+//       }
+//     }
+//   `
+//   return await shopifyFetch(query);
+// }
 
-export async function getShopifyProductByHandle(productHandle: string, imagesPerProduct: number = 1) {
+export async function getShopifyProductByHandle(productHandle: string) {
   const query = `
     query GetProductByHandle{
       product(handle: "${productHandle}") {
         id
         title
         description
-        images(first: ${imagesPerProduct}) {
+        variants(first: 10) {
           edges {
             node {
-              url
-              altText
+              id
+              title
+              availableForSale
+              price {
+                amount
+                currencyCode
+              }
+              image{
+                url
+                altText
+              }
+              selectedOptions{
+                name
+                value
+              }
             }
-          }
-        }
-        priceRange{
-          maxVariantPrice{
-            amount
-            currencyCode
-          }
-          minVariantPrice{
-            amount
-            currencyCode
           }
         }
       }
     }
   `
   return {...await shopifyFetch(query), handle: productHandle};
+}
+
+export async function getProductVariant(variantId: string) {
+  const query = `
+    query GetProductVariant($id: ID!) {
+      productVariant(id: $id) {
+        id
+        title
+        price {
+          amount
+          currencyCode
+        }
+      }
+      
+      product{
+        id
+        title
+        handle
+        featuredImage{
+          url
+          altText
+        }
+      }
+    }
+      
+  `
+
+  const variables = { id: variantId };
+  const {data} = await shopifyFetch(query, variables);
+  return data;
 }

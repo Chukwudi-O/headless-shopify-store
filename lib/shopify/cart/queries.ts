@@ -1,9 +1,20 @@
 import { shopifyFetch } from "../fetch";
 
-export async function getCart(cartId: string,first: number = 10){
+export async function getShopifyCart(cartId: string,first: number = 10){
     const query = `
     query getCart($cartId: ID!, $first: Int) {
         cart(id: $cartId) {
+            checkoutUrl
+            cost{
+                totalAmount {
+                    amount
+                    currencyCode
+                }
+                subtotalAmount {
+                    amount
+                    currencyCode
+                }
+            }
             lines(first: $first) {
                 edges {
                     node {
@@ -14,9 +25,22 @@ export async function getCart(cartId: string,first: number = 10){
                                 amount
                                 currencyCode
                             }
-                            amountPerQuantity {
-                                amount
-                                currencyCode
+                        }
+                        merchandise {
+                            ... on ProductVariant {
+                                id
+                                title
+                                product{
+                                    title
+                                }
+                                image {
+                                    url
+                                    altText
+                                }
+                                priceV2 {
+                                    amount
+                                    currencyCode
+                                }
                             }
                         }
                     }

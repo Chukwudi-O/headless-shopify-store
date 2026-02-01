@@ -12,6 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { getCart } from "@/app/actions/cart"
 
 type CartSheetProps = {
   open: boolean,
@@ -24,14 +25,17 @@ export default function CartSheet({
 }: CartSheetProps) {
     const [cart,setCart] = useState<any>(null);
     const [items,setItems] = useState<any[]>([]);
-    // const items = cart?.lines?.edges ?? []
 
-    // useEffect(() => {
-    //     async function fetchCartItems(){
-    //         // Fetch cart items logic here
-    //     }
-    //     fetchCartItems();
-    // }, [open]);
+
+    useEffect(() => {
+        async function fetchCartItems(){
+            const cartData = await getCart();
+            console.log("Fetched cart data:", cartData);
+            setCart(cartData.cart);
+            setItems(cartData.cart.lines.edges);
+        }
+        fetchCartItems();
+    }, [open]);
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
@@ -52,7 +56,7 @@ export default function CartSheet({
                         <div key={node.id} className="flex gap-4 py-4">
                             {/* IMAGE */}
                             {node.merchandise.image && (
-                                <Image
+                                <img
                                 src={node.merchandise.image.url}
                                 alt={node.merchandise.product.title}
                                 width={70}
@@ -64,7 +68,7 @@ export default function CartSheet({
                             {/* INFO */}
                             <div className="flex-1">
                                 <p className="font-medium">
-                                {node.merchandise.product.title}
+                                {node.merchandise.product.title} <span className="text-blue-500">({node.merchandise.title})</span>
                                 </p>
 
                                 <p className="text-sm text-muted-foreground">

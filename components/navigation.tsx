@@ -12,7 +12,7 @@ export const AuthContext = createContext({loggedIn: false, setLoggedIn: (value: 
 export default function Navbar({ children }: { children: React.ReactNode }) {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [loggedIn, setLoggedIn] = useState(false); // Placeholder for auth state
+    const [loggedIn, setLoggedIn] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
 
     useEffect(() => {
@@ -20,7 +20,9 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
             setLoggedIn(await checkUserLoggedIn());
         }
         checkAuth();
-
+    }, []);
+    
+    useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
