@@ -13,15 +13,30 @@ export type ShopifyProduct = {
       }
     ]
   },
-  priceRange: {
-    minVariantPrice: {
-      currencyCode: string,
-      amount: number
-    }
-    maxVariantPrice: {
-      currencyCode: string,
-      amount: number
-    }
+  variants:{
+    edges: [
+      {
+        node: {
+          id: string,
+          title: string,
+          availableForSale: boolean
+          price: {
+            amount: number,
+            currencyCode: string
+          },
+          selectedOptions: [
+            {
+              name: string,
+              value: string
+            }
+          ],
+          image: {
+            url: string,
+            altText: string
+          }
+        }
+      }
+    ]
   }
 }
 

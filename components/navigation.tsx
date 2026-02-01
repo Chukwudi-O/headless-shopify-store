@@ -5,20 +5,24 @@ import { ShoppingCart } from 'lucide-react';
 import { Button } from './ui/button';
 import { checkUserLoggedIn, getUserInfo } from '@/app/actions/auth';
 import UserAvatarMenu from './profile-dropdown';
+import CartSheet from './cart-sheet';
 
 export const AuthContext = createContext({loggedIn: false, setLoggedIn: (value: boolean) => {}});
 
 export default function Navbar({ children }: { children: React.ReactNode }) {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [loggedIn, setLoggedIn] = useState(false); // Placeholder for auth state
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
             setLoggedIn(await checkUserLoggedIn());
         }
         checkAuth();
-
+    }, []);
+    
+    useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
@@ -72,11 +76,12 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
                                 Login
                             </Link>
                         )}
-                        <Button variant="ghost">
+                        <Button variant="ghost" onClick={() => setCartOpen(!cartOpen)}>
                             <ShoppingCart size={20} />
                         </Button>
                     </div>
                 </div>
+                <CartSheet open={cartOpen} onOpenChange={setCartOpen}/>
             </nav>
         </AuthContext.Provider>
     );

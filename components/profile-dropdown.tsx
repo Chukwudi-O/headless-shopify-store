@@ -26,7 +26,6 @@ export default function UserAvatarMenu() {
         const fetchProfileData = async () => {
             if (loggedIn){
                 const data = await getUserInfo();
-                console.log("Fetched user info:", data);
                 setProfileData(data);
             }else{
                 setProfileData(null);
@@ -46,7 +45,7 @@ export default function UserAvatarMenu() {
         <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
             <AvatarImage src={profileData?.avatarUrl} />
-            <AvatarFallback>{profileData?.firstName?.charAt(0)+profileData?.lastName?.charAt(0) || "IO"}</AvatarFallback>
+            <AvatarFallback>{profileData?.firstName?.charAt(0)+profileData?.lastName?.charAt(0) || ""}</AvatarFallback>
             </Avatar>
         </DropdownMenuTrigger>
 

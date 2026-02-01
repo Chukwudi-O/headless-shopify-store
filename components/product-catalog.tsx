@@ -14,6 +14,7 @@ export default function ProductCatalog() {
     useEffect(() => {
         const fetchProducts = async () => {
             const prodData = await getProducts()
+            console.log("Fetched products:", prodData);
             setProducts(prodData)
         }
         fetchProducts()
