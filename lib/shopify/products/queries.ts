@@ -34,7 +34,8 @@ export async function getShopifyShopDetails(){
         }
       }
     `;
-    return await shopifyFetch(query);
+    const {data} = await shopifyFetch(query);
+    return data
 }
 
 export async function getShopifyProducts(numberOfProducts: number = 10, imagesPerProduct: number = 1) {

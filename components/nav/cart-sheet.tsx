@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -10,10 +9,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import Image from "next/image"
 import { useEffect, useState } from "react"
 import { getCart, removeItemFromCart } from "@/app/actions/cart"
 import { Trash } from "lucide-react"
+import Image from "next/image"
 
 type CartSheetProps = {
   open: boolean,
@@ -55,12 +54,13 @@ export default function CartSheet({
                     {items.map(({ node }: any) => (
                         <div key={node.id} className="flex gap-4 py-4">
                             {/* IMAGE */}
-                            {node.merchandise.image && (
-                                <img
+                            {node.merchandise.image?.url && (
+                                <Image
                                 src={node.merchandise.image.url}
                                 alt={node.merchandise.product.title}
                                 width={70}
                                 height={70}
+                                sizes="70px"
                                 className="rounded-md object-cover"
                                 />
                             )}
@@ -68,16 +68,25 @@ export default function CartSheet({
                             {/* INFO */}
                             <div className="flex-1">
                                 <p className="font-medium">
-                                {node.merchandise.product.title} <span className="text-blue-500">({node.merchandise.title})</span>
+                                    {node.merchandise.product.title}
+                                    {
+                                        node.merchandise.title !== "Default Title"?(
+                                            <span className="text-blue-500"> ({node.merchandise.title})</span>
+                                        ):null
+                                    }
                                 </p>
 
                                 <p className="text-sm text-muted-foreground">
-                                Qty: {node.quantity}
+                                    Qty: {node.quantity} x {""}
+                                <span className="text-sm">
+                                    {node.merchandise.priceV2.currencyCode} ${Number(node.merchandise.priceV2.amount).toFixed(2)}
+                                </span>
                                 </p>
 
                                 <p className="text-sm">
-                               {node.merchandise.priceV2.currencyCode} ${Number(node.merchandise.priceV2.amount).toFixed(2)}
+                                    {node.cost.totalAmount.currencyCode} ${Number(node.cost.totalAmount.amount).toFixed(2)}
                                 </p>
+
 
                                 <Button
                                 variant="ghost"
@@ -102,7 +111,18 @@ export default function CartSheet({
                     <div className="flex justify-between font-medium px-2">
                         <span>Subtotal</span>
                         <span>
-                       {cart.cost.subtotalAmount.currencyCode} ${Number(cart.cost.subtotalAmount.amount || 0).toFixed(2)}
+                        {
+                        cart?.cost?(
+                            <p>
+                                {cart.cost.subtotalAmount.currencyCode} ${Number(cart.cost.subtotalAmount.amount || 0).toFixed(2)}
+                            </p>
+                        ):(
+                            <p>
+                                $TTD 0.00
+                            </p>
+                        )
+                        }
+                       
                         </span>
                     </div>
 
@@ -111,7 +131,7 @@ export default function CartSheet({
                         disabled={!cart}
                         asChild
                     >
-                        <a href={cart.checkoutUrl}>
+                        <a href={cart?.checkoutUrl||"#"}>
                         Checkout
                         </a>
                     </Button>

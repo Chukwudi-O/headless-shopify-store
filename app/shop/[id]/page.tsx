@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { ShoppingCart } from "lucide-react"
+import { Image, ShoppingCart } from "lucide-react"
 import { getProductByHandle } from "@/app/actions/products"
 import { useParams } from "next/navigation"
 import { ShopifyProduct } from "@/lib/types"
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { addItemToCart } from "@/app/actions/cart"
+import NextImage from "next/image"
 
 // ----------------------------------
 // Component
@@ -56,11 +57,20 @@ export default function ShopifyProductPage() {
     <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-2 gap-10 mt-20">
       {/* Image */}
       <Card className="rounded-2xl overflow-hidden p-0">
-        <img
-          src={variant.image.url}
-          alt={product.title}
-          className="w-full h-full object-cover"
-        />
+        {
+        variant.image?.url?(
+          <div className="relative w-full h-full min-h-[28rem]">
+            <NextImage
+              src={variant.image.url}
+              alt={product.title}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+        ):<p className="text-center">
+            No Product Image <Image/>
+          </p>}
       </Card>
 
       {/* Info */}
@@ -72,29 +82,31 @@ export default function ShopifyProductPage() {
         </p>
 
         {/* Variants */}
-       
-        
-        <div className="space-y-2">
-          <p className="font-medium">{product.variants.edges[0].node.selectedOptions[0].name}</p>
-          <div className="flex flex-wrap gap-2">
+        {
+          product.variants.edges.length > 1?(
+            <div className="space-y-2">
+              <div className="flex flex-col flex-wrap gap-2">
+                <p className="font-medium">{product.variants.edges[0].node.selectedOptions[0].name}:</p>
 
-            {
-              product.variants.edges.length > 1 && (
-                <RadioGroup className="flex gap-2"
-                value={variant?.title}
-                defaultValue={product.variants.edges[0].node.title}>
-                  {product.variants.edges.map(({ node }) => (
-                    <div key={node.id} className="flex items-center space-x-2">
-                      <RadioGroupItem id={node.id} value={node.title} onClick={() => setVariant(node)}/>
-                      <Label htmlFor={node.id}>{node.title} </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )
-            }
+                {
+                  product.variants.edges.length > 1 && (
+                    <RadioGroup className="flex gap-2"
+                    value={variant?.title}
+                    defaultValue={product.variants.edges[0].node.title}>
+                      {product.variants.edges.map(({ node }) => (
+                        <div key={node.id} className="flex items-center space-x-2">
+                          <RadioGroupItem id={node.id} value={node.title} onClick={() => setVariant(node)}/>
+                          <Label htmlFor={node.id}>{node.title} </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  )
+                }
 
-          </div>
-        </div>
+              </div>
+            </div>
+          ):null
+        }
 
         {/* Price */}
         <p className="text-2xl font-semibold">
@@ -113,7 +125,7 @@ export default function ShopifyProductPage() {
         {/* CTA */}
         <Button size="lg" className="w-full"
         onClick={async () => await addItemToCart(variant.id, quantity)}>
-          <ShoppingCart className="mr-2 h-5 w-5" />
+          <ShoppingCart className="mr-2 h-5 w-5"/>
           Add to Cart
         </Button>
       </div>

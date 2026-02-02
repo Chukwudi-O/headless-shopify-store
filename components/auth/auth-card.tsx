@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginShopifyUser, registerShopifyUser } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "./navigation";
+import { AuthContext } from "./auth-context";
 
 type Mode = "login" | "register";
 

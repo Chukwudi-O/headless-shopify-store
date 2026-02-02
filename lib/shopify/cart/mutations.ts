@@ -36,7 +36,7 @@ export async function addItemToShopifyCart(cartId:string,variantId:string,quanti
     }] };
 
     const { data } = await shopifyFetch(mutation, variables);
-    // console.log("Add Item Response:", data);
+    return !!data
 }
 
 export async function removeItemFromShopifyCart(cartId: string, lineId: string) {
@@ -59,6 +59,6 @@ export async function removeItemFromShopifyCart(cartId: string, lineId: string) 
     // console.log("Remove Item Response:", data);
 }
 
-export async function updateShopifyCartItem() {
+export async function updateShopifyCartItemQuantity(cartId:string, lineId: string, ) {
     const mutation = ``
 }

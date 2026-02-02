@@ -14,7 +14,7 @@ import { LogOut, User } from "lucide-react";
 import { getUserInfo, logoutUser } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "./navigation";
+import { AuthContext } from "../auth/auth-context";
 
 export default function UserAvatarMenu() {
     // Create type for profileData in types.ts later

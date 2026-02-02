@@ -1,4 +1,4 @@
-import ProductCatalog from "@/components/product-catalog";
+import ProductCatalog from "@/components/shop/product-catalog";
 
 
 export default function ShopPage() {
