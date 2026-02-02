@@ -1,14 +1,14 @@
-import ProductCatalog from "@/components/shop/product-catalog";
+import { getProducts } from "@/app/actions/products";
+import ShopCatalogClient from "@/components/shop/shop-catalog-client";
 
+export default async function ShopPage() {
+  const { products, pageInfo } = await getProducts(50, 1);
 
-export default function ShopPage() {
-    return (
-        <div className=" flex flex-col items-center justify-center pt-20">
-            <h1
-            className="text-5xl font-bold">
-                Shop
-            </h1>
-            <ProductCatalog/>
-        </div>
-    )
+  return (
+    <div className="min-h-screen bg-white pt-24 pb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ShopCatalogClient products={products} pageInfo={pageInfo} />
+      </div>
+    </div>
+  );
 }

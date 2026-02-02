@@ -38,10 +38,18 @@ export async function getShopifyShopDetails(){
     return data
 }
 
-export async function getShopifyProducts(numberOfProducts: number = 10, imagesPerProduct: number = 1) {
+export async function getShopifyProducts(
+  numberOfProducts: number = 10,
+  imagesPerProduct: number = 1,
+  after?: string
+) {
     const query = `
-      query GetProducts {
-        products(first: ${numberOfProducts}) {
+      query GetProducts($after: String) {
+        products(first: ${numberOfProducts}, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
           edges {
             node {
               id
@@ -72,7 +80,8 @@ export async function getShopifyProducts(numberOfProducts: number = 10, imagesPe
         }
       }
     `
-    return await shopifyFetch(query);
+    const variables = { after };
+    return await shopifyFetch(query, variables);
 }
 
 
