@@ -22,6 +22,7 @@ export default function NavigationClient({
   const { loggedIn } = useContext(AuthContext);
 
   useEffect(() => {
+    console.log(shopInfo)
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -51,11 +52,8 @@ export default function NavigationClient({
             <Link href="/shop" className="hover:text-gray-600">
               Shop
             </Link>
-            <Link href="#" className="hover:text-gray-600">
+            <Link href="/about" className="hover:text-gray-600">
               About
-            </Link>
-            <Link href="#" className="hover:text-gray-600">
-              Contact
             </Link>
           </div>
 
