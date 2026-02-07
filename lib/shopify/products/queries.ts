@@ -4,38 +4,47 @@ export async function getShopifyShopDetails(){
     const query = `
       query GetShopDetails {
         shop {
-            name
-            brand{
-                slogan
-                shortDescription
-                logo{
-                    image{
-                        url
-                        altText
-                    }
-                }
-                squareLogo{
-                    image{
-                    url
-                    altText
-                    }
-                }
-                colors{
-                    primary{
-                        background
-                        foreground
-                    }
-                    secondary{
-                        background
-                        foreground
-                    }
-                }
+          name
+          privacyPolicy {
+            title
+            url
+          }
+          termsOfService {
+            title
+            url
+          }
+          brand {
+            slogan
+            shortDescription
+            logo {
+              image {
+                url
+                altText
+              }
             }
+            squareLogo {
+              image {
+                url
+                altText
+              }
+            }
+            colors {
+              primary {
+                background
+                foreground
+              }
+              secondary {
+                background
+                foreground
+              }
+            }
+          }
         }
       }
     `;
     const {data} = await shopifyFetch(query);
-    return data
+    
+    return data;
 }
 
 export async function getShopifyProducts(
@@ -81,6 +90,50 @@ export async function getShopifyProducts(
       }
     `
     const variables = { after };
+    return await shopifyFetch(query, variables);
+}
+
+export async function getShopifyCollectionProducts(
+  handle: string,
+  numberOfProducts: number = 10,
+  imagesPerProduct: number = 1
+) {
+    const query = `
+      query GetCollectionProducts($handle: String!) {
+        collection(handle: $handle) {
+          products(first: ${numberOfProducts}) {
+            edges {
+              node {
+                id
+                title
+                handle
+                description
+                availableForSale
+                images(first: ${imagesPerProduct}) {
+                  edges {
+                    node {
+                      url
+                      altText
+                    }
+                  }
+                }
+                priceRange {
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                  maxVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `
+    const variables = { handle };
     return await shopifyFetch(query, variables);
 }
 

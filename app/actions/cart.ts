@@ -1,13 +1,22 @@
 "use server";
-import { addItemToShopifyCart, createShopifyCart, removeItemFromShopifyCart } from "@/lib/shopify";
+import {
+  addItemToShopifyCart,
+  createShopifyCart,
+  removeItemFromShopifyCart,
+  updateShopifyCartBuyerIdentity,
+} from "@/lib/shopify";
 import { getShopifyCart } from "@/lib/shopify/cart/queries";
 import { cookies } from "next/headers";
 
 export async function getCart(){
     const cookie = await cookies();
     const cartId = cookie.get("cartId")?.value;
+    const customerToken = cookie.get("customer_token")?.value;
     let cartData
     if (cartId){
+        if (customerToken) {
+            await updateShopifyCartBuyerIdentity(cartId, customerToken);
+        }
         cartData = await getShopifyCart(cartId);
     }else{
         const newCartData = await createCart();
@@ -17,9 +26,10 @@ export async function getCart(){
 }
 
 export async function createCart(){
-    const data = await createShopifyCart();
-
     const cookie = await cookies();
+    const token = cookie.get("customer_token")?.value;
+    const data = await createShopifyCart(token);
+
     cookie.set("cartId", data.id);
     cookie.set("cartCheckoutUrl", data.checkoutUrl);
 

@@ -15,6 +15,7 @@ import { getUserInfo, logoutUser } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth/auth-context";
+import Link from "next/link";
 
 export default function UserAvatarMenu() {
     // Create type for profileData in types.ts later
@@ -53,13 +54,11 @@ export default function UserAvatarMenu() {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            Profile
-            </DropdownMenuItem>
-
-            <DropdownMenuItem>
-            Settings
+            <DropdownMenuItem asChild>
+              <Link href="/profile" className="flex items-center">
+                <User className="mr-2 h-4 w-4" />
+                Profile
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />

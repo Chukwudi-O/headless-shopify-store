@@ -1,9 +1,10 @@
 import { shopifyFetch } from "../fetch";
 
 
-export async function createShopifyCart(){
-    const mutation = `mutation {
-        cartCreate {
+export async function createShopifyCart(customerAccessToken?: string){
+    const mutation = `
+    mutation CartCreate($buyerIdentity: CartBuyerIdentityInput) {
+        cartCreate(input: { buyerIdentity: $buyerIdentity }) {
             cart {
                 id
                 checkoutUrl
@@ -11,7 +12,11 @@ export async function createShopifyCart(){
         }
     }`;
 
-    const response = await shopifyFetch(mutation);
+    const variables = customerAccessToken
+      ? { buyerIdentity: { customerAccessToken } }
+      : { buyerIdentity: null };
+
+    const response = await shopifyFetch(mutation, variables);
     return response.data.cartCreate.cart;
 }
 
@@ -61,4 +66,31 @@ export async function removeItemFromShopifyCart(cartId: string, lineId: string) 
 
 export async function updateShopifyCartItemQuantity(cartId:string, lineId: string, ) {
     const mutation = ``
+}
+
+export async function updateShopifyCartBuyerIdentity(
+    cartId: string,
+    customerAccessToken: string
+) {
+    const mutation = `
+    mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+        cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+            cart {
+                id
+                checkoutUrl
+            }
+            userErrors {
+                field
+                message
+            }
+        }
+    }`;
+
+    const variables = {
+        cartId,
+        buyerIdentity: { customerAccessToken },
+    };
+
+    const { data } = await shopifyFetch(mutation, variables);
+    return data.cartBuyerIdentityUpdate;
 }

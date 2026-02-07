@@ -9,6 +9,31 @@ export async function getCustomerInfo(token: string) {
                 firstName
                 lastName
                 avatarUrl
+                phone
+                defaultAddress {
+                    id
+                    address1
+                    address2
+                    city
+                    province
+                    country
+                    zip
+                    phone
+                }
+                addresses(first: 5) {
+                    edges {
+                        node {
+                            id
+                            address1
+                            address2
+                            city
+                            province
+                            country
+                            zip
+                            phone
+                        }
+                    }
+                }
             }
         }
     `
